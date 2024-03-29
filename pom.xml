@@ -10,9 +10,6 @@
     <packaging>pom</packaging>
 
     <name>SentryCube</name>
-    <modules>
-        <module>Core</module>
-    </modules>
 
     <properties>
         <java.version>21</java.version>
@@ -29,6 +26,7 @@
             </activation>
 
             <modules>
+                <module>Core</module>
                 <module>UserInterface</module>
                 <module>Infrastructure</module>
             </modules>

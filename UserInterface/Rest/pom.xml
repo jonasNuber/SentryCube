@@ -13,7 +13,7 @@
     <groupId>org.nuberjonas.sentrycube.userinterface</groupId>
     <artifactId>rest</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
     <name>Rest</name>
 </project>
