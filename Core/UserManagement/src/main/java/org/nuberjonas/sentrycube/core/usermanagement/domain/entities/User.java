@@ -7,11 +7,14 @@ import java.util.Objects;
 public class User {
 
     private final UserId userId;
+
     private UserName userName;
     private Email email;
     private Password password;
-
     private Name name;
+    private Gender gender;
+    private DateOfBirth dateOfBirth;
+    private Status status;
 
     private User(Builder builder){
         userId = builder.userId;
