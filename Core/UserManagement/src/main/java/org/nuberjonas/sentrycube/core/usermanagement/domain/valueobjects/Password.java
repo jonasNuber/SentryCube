@@ -1,9 +1,10 @@
 package org.nuberjonas.sentrycube.core.usermanagement.domain.valueobjects;
 
 import org.apache.commons.lang3.StringUtils;
-import org.nuberjonas.sentrycube.core.sharedkernel.services.PasswordHashService;
+import org.nuberjonas.sentrycube.core.sharedkernel.behaviours.PasswordEncryption;
+import org.nuberjonas.sentrycube.core.sharedkernel.behaviours.SaltGeneration;
 
-public final class Password {
+public final class Password implements SaltGeneration, PasswordEncryption {
 
     private final String passwordHash;
     private final String salt;
@@ -18,8 +19,8 @@ public final class Password {
             throw new IllegalArgumentException("Password must not be empty.");
         }
 
-        this.salt = PasswordHashService.generateSalt();
-        this.passwordHash = PasswordHashService.hash(newPassword, salt);
+        this.salt = generateSalt();
+        this.passwordHash = hash(newPassword, salt);
     }
 
     public Password change(String newPassword){

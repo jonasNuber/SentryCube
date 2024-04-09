@@ -1,5 +1,6 @@
 package org.nuberjonas.sentrycube.core.usermanagement.domain.entities;
 
+import org.nuberjonas.sentrycube.core.sharedkernel.valueobjects.UserId;
 import org.nuberjonas.sentrycube.core.usermanagement.domain.valueobjects.*;
 
 import java.time.LocalDate;
