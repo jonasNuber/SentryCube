@@ -4,7 +4,6 @@ import org.nuberjonas.sentrycube.core.sharedkernel.valueobjects.UserId;
 import org.nuberjonas.sentrycube.core.usermanagement.application.commands.UserUpdateCommand;
 
 public class UserManagementService {
-
     private UserManagementRepository userManagementRepository;
 
     public UserManagementService(UserManagementRepository userManagementRepository) {
