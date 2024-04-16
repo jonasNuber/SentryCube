@@ -1,4 +1,4 @@
-package org.nuberjonas.sentrycube.core.usermanagement.domain.valueobjects;
+package org.nuberjonas.sentrycube.core.sharedkernel.valueobjects;
 
 import java.util.UUID;
 
