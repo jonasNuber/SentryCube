@@ -4,7 +4,8 @@ public enum Status {
     ACTIVE("Active"),
     INACTIVE("Inactive"),
     SUSPENDED("Suspended"),
-    UNVERIFIED("Unverified");
+    UNVERIFIED("Unverified"),
+    DELETED("Deleted");
 
     private final String value;
 
