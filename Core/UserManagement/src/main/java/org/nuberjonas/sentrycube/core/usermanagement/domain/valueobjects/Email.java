@@ -13,7 +13,7 @@ public final class Email {
             throw new IllegalArgumentException("Email address must not be empty");
         }
 
-        var emailPattern = Pattern.compile("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$");
+        var emailPattern = Pattern.compile("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
         var matcher = emailPattern.matcher(emailAddress);
 
         if(matcher.matches()){

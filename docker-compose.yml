@@ -11,6 +11,10 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: SentryCubeDB
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 

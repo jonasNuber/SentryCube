@@ -1,4 +1,4 @@
-CREATE TYPE "gender" AS ENUM (
+CREATE TYPE IF NOT EXISTS "gender" AS ENUM (
   'MALE',
   'FEMALE',
   'NON_BINARY',
@@ -37,10 +37,15 @@ CREATE TABLE "realm" (
   "realm_name" varchar(255) PRIMARY KEY,
   "enabled" bool NOT NULL DEFAULT true,
   "user_manageable" bool NOT NULL DEFAULT true,
-  "registerable" bool NOT NULL DEFAULT true,
+  "registrable" bool NOT NULL DEFAULT true,
   "verify_email" bool NOT NULL DEFAULT false,
   "email_login" bool NOT NULL DEFAULT true,
-  "access_token_lifespan" integer NOT NULL DEFAULT 5
+  "access_token_lifespan" integer NOT NULL DEFAULT 5,
+  "refresh_token_lifespan" integer NOT NULL DEFAULT 10,
+  "description" varchar(500),
+
+  CONSTRAINT positive_access_token_lifespan CHECK (access_token_lifespan > 0),
+  CONSTRAINT positive_refresh_token_lifespan CHECK (refresh_token_lifespan > 0)
 );
 
 CREATE TABLE "client" (
@@ -51,7 +56,8 @@ CREATE TABLE "client" (
   "protocol" protocol NOT NULL DEFAULT 'OAUTH_2',
   "grant_type" grant_type NOT NULL DEFAULT 'AUTHORIZATION_CODE',
   "enabled" bool NOT NULL DEFAULT true,
-  "access_type" access_type NOT NULL DEFAULT 'PUBLIC'
+  "access_type" access_type NOT NULL DEFAULT 'PUBLIC',
+  "description" varchar(500)
 );
 
 CREATE TABLE "redirect_uri" (
@@ -94,15 +100,14 @@ CREATE TABLE "user" (
   "username" varchar(255) NOT NULL,
   "email" varchar(255) NOT NULL,
   "password_hash" varchar(255) NOT NULL,
-  "password_salt" varchar(124) NOT NULL,
+  "password_salt" varchar(255) NOT NULL,
   "personal_data_id" uuid,
   "creation_time" timestamp NOT NULL DEFAULT current_timestamp,
-  "last_login" date NOT NULL,
+  "last_login" timestamp NOT NULL,
   "status" status NOT NULL DEFAULT 'UNVERIFIED',
 
   CONSTRAINT "unique_username_realm" UNIQUE ("username", "realm_name"),
   CONSTRAINT "unique_email_realm" UNIQUE ("email", "realm_name"),
-  CONSTRAINT "email_format_check" CHECK ("email" ~* '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'),
   CONSTRAINT "username_format_check" CHECK ("username" ~ '^[a-zA-Z0-9_]+$')
 );
 
@@ -120,7 +125,7 @@ CREATE TABLE "personal_data" (
   "gender" gender NOT NULL DEFAULT 'DID_NOT_WANT_TO_SPECIFY',
   "phone_number" varchar(120),
   "address_id" uuid,
-  "profile_pic_data" blob
+  "profile_pic_data" bytea
 );
 
 CREATE TABLE "name" (
@@ -198,20 +203,14 @@ ALTER TABLE "realm_role" ADD FOREIGN KEY ("realm_name") REFERENCES "realm" ("rea
 
 ALTER TABLE "client_role" ADD FOREIGN KEY ("client_id") REFERENCES "client" ("client_id") ON DELETE CASCADE ON UPDATE NO ACTION;
 
-ALTER TABLE "user_realm_role" ADD FOREIGN KEY ("realm_name") REFERENCES "realm_role" ("realm_name") ON DELETE CASCADE ON UPDATE NO ACTION;
+ALTER TABLE "user_realm_role" ADD FOREIGN KEY ("user_id") REFERENCES "user" ("user_id") ON DELETE CASCADE ON UPDATE NO ACTION;
 
-ALTER TABLE "user_realm_role" ADD FOREIGN KEY ("role_name") REFERENCES "realm_role" ("role_name") ON DELETE CASCADE ON UPDATE NO ACTION;
-
-ALTER TABLE "user_client_role" ADD FOREIGN KEY ("client_id") REFERENCES "client_role" ("client_id") ON DELETE CASCADE ON UPDATE NO ACTION;
-
-ALTER TABLE "user_client_role" ADD FOREIGN KEY ("role_name") REFERENCES "client_role" ("role_name") ON DELETE CASCADE ON UPDATE NO ACTION;
+ALTER TABLE "user_realm_role" ADD FOREIGN KEY ("realm_name", "role_name") REFERENCES "realm_role" ("realm_name", "role_name") ON DELETE CASCADE ON UPDATE NO ACTION;
 
 ALTER TABLE "user_client_role" ADD FOREIGN KEY ("user_id") REFERENCES "user" ("user_id") ON DELETE CASCADE ON UPDATE NO ACTION;
 
-ALTER TABLE "user_realm_role" ADD FOREIGN KEY ("user_id") REFERENCES "user" ("user_id") ON DELETE CASCADE ON UPDATE NO ACTION;
+ALTER TABLE "user_client_role" ADD FOREIGN KEY ("client_id", "role_name") REFERENCES "client_role" ("client_id", "role_name") ON DELETE CASCADE ON UPDATE NO ACTION;
 
 ALTER TABLE "redirect_uri" ADD FOREIGN KEY ("client_id") REFERENCES "client" ("client_id") ON DELETE CASCADE ON UPDATE NO ACTION;
 
-ALTER TABLE "token" ADD FOREIGN KEY ("user_id") REFERENCES "session" ("user_id") ON DELETE CASCADE ON UPDATE NO ACTION;
-
-ALTER TABLE "token" ADD FOREIGN KEY ("client_id") REFERENCES "session" ("client_id") ON DELETE CASCADE ON UPDATE NO ACTION;
+ALTER TABLE "token" ADD FOREIGN KEY ("user_id", "client_id") REFERENCES "session" ("user_id", "client_id") ON DELETE CASCADE ON UPDATE NO ACTION;
