@@ -2,9 +2,9 @@ package org.nuberjonas.sentrycube.core.sharedkernel.valueobjects;
 
 import java.util.UUID;
 
-public record UserId(UUID id) {
+public record ClientId(UUID id) {
 
-    public UserId(){
-        this(UUID.randomUUID());
+    public ClientId(){
+        this( UUID.randomUUID() );
     }
 }

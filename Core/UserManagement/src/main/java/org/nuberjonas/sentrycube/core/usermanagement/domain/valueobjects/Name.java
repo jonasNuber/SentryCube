@@ -2,51 +2,25 @@ package org.nuberjonas.sentrycube.core.usermanagement.domain.valueobjects;
 
 import org.apache.commons.lang3.StringUtils;
 
-public final class Name {
+public record Name(String firstName, String lastName) {
 
-    private final String firstName;
-    private final String[] middleNames;
-    private final String lastName;
-
-    public Name(String firstName, String lastName, String... middleNames) {
+    public Name(String firstName, String lastName) {
         if(StringUtils.isEmpty(firstName) || StringUtils.isEmpty(lastName)){
             throw new IllegalArgumentException("First and last names can not be empty");
         }
 
         this.firstName = firstName;
         this.lastName = lastName;
-        this.middleNames = middleNames;
     }
 
-    public Name change(String firstName, String lastName, String... middleNames){
+    public Name change(String firstName, String lastName){
         return new Name(firstName == null ? this.firstName : firstName,
-                        lastName == null ? this.lastName : lastName,
-                        middleNames);
+                        lastName == null ? this.lastName : lastName);
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String[] getMiddleNames() {
-        return middleNames;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getFullName(){
+    public String fullName(){
         var builder = new StringBuilder();
 
-        builder.append(firstName).append(" ");
-
-        for(var middleName : middleNames){
-            builder.append(middleName).append(" ");
-        }
-
-        builder.append(lastName);
-
-        return builder.toString().trim();
+        return builder.append(firstName).append(" ").append(lastName).toString().trim();
     }
 }

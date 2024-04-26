@@ -5,8 +5,7 @@ import org.nuberjonas.sentrycube.core.usermanagement.domain.exceptions.EmailVali
 
 import java.util.regex.Pattern;
 
-public final class Email {
-    private final String emailAddress;
+public record Email(String emailAddress) {
 
     public Email(String emailAddress) {
         if(StringUtils.isEmpty(emailAddress)){
@@ -25,9 +24,5 @@ public final class Email {
 
     public Email change(String newEmailAddress){
         return new Email(newEmailAddress);
-    }
-
-    public String get(){
-        return emailAddress;
     }
 }

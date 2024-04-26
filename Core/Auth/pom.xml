@@ -17,6 +17,17 @@
 
     <name>Auth</name>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.nuberjonas.sentrycube.core</groupId>
+            <artifactId>org.nuberjonas.sentrycube.core.sharedkernel</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>

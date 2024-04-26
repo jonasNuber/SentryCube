@@ -20,7 +20,6 @@
     <modules>
         <module>Auth</module>
         <module>UserManagement</module>
-        <module>SessionManagement</module>
         <module>SharedKernel</module>
     </modules>
 </project>

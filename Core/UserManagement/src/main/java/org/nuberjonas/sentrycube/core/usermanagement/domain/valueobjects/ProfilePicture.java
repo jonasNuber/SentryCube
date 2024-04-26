@@ -1,18 +1,29 @@
 package org.nuberjonas.sentrycube.core.usermanagement.domain.valueobjects;
 
-public final class ProfilePicture {
+import java.util.Arrays;
 
-    private final byte[] data;
-
-    public ProfilePicture(byte[] data) {
-        this.data = data;
-    }
-
+public record ProfilePicture(byte[] data) {
     public ProfilePicture change(byte[] newData){
         return new ProfilePicture(newData);
     }
 
-    public byte[] get(){
-        return data;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProfilePicture that = (ProfilePicture) o;
+        return Arrays.equals(data, that.data);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(data);
+    }
+
+    @Override
+    public String toString() {
+        return "ProfilePicture{" +
+                "data=" + Arrays.toString(data) +
+                '}';
     }
 }

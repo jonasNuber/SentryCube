@@ -1,5 +1,7 @@
 package org.nuberjonas.sentrycube.core.usermanagement.domain.entities;
 
+import org.nuberjonas.sentrycube.core.usermanagement.domain.valueobjects.UserName;
+import org.nuberjonas.sentrycube.core.usermanagement.domain.valueobjects.Email;
 import org.nuberjonas.sentrycube.core.sharedkernel.valueobjects.UserId;
 import org.nuberjonas.sentrycube.core.usermanagement.domain.valueobjects.*;
 
@@ -45,8 +47,8 @@ public class User {
         password = password.change(newPassword);
     }
 
-    public void changeName(String firstName, String lastName, String... middleNames){
-        name = name.change(firstName, lastName, middleNames);
+    public void changeName(String firstName, String lastName){
+        name = name.change(firstName, lastName);
     }
 
     public void changeGender(Gender newGender){
@@ -80,9 +82,9 @@ public class User {
             creationDate = new CreationDate();
         }
 
-        public Builder name(String firstName, String lastName, String... middleNames){
+        public Builder name(String firstName, String lastName){
             if(firstName != null && lastName != null){
-                name = new Name(firstName, lastName, middleNames);
+                name = new Name(firstName, lastName);
             }
 
             return this;
