@@ -1,5 +1,5 @@
 package org.nuberjonas.sentrycube.core.auth.application.repositories;
 
-public interface UserRepository {
+public interface UserAuthenticationRepository {
 
 }

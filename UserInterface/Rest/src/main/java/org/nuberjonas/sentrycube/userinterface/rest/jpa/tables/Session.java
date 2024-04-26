@@ -1,4 +1,4 @@
-package org.nuberjonas.sentrycube.intrastructure.persistence.jpa.tables;
+package org.nuberjonas.sentrycube.userinterface.rest.jpa.tables;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;

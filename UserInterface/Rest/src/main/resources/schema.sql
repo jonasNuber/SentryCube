@@ -1,4 +1,4 @@
-CREATE TYPE IF NOT EXISTS "gender" AS ENUM (
+CREATE TYPE "gender" AS ENUM (
   'MALE',
   'FEMALE',
   'NON_BINARY',
@@ -67,31 +67,33 @@ CREATE TABLE "redirect_uri" (
 );
 
 CREATE TABLE "realm_role" (
+  "realm_role_id" uuid PRIMARY KEY,
   "realm_name" varchar(255),
   "role_name" varchar(255),
   "description" varchar(500),
-  PRIMARY KEY ("realm_name", "role_name")
+
+  CONSTRAINT "unique_realm_role" UNIQUE ("realm_name", "role_name")
 );
 
 CREATE TABLE "client_role" (
+  "client_role_id" uuid PRIMARY KEY,
   "client_id" uuid,
   "role_name" varchar(255),
   "description" varchar(500),
-  PRIMARY KEY ("client_id", "role_name")
+
+  CONSTRAINT "unique_client_role" UNIQUE ("client_id", "role_name")
 );
 
 CREATE TABLE "user_client_role" (
+  "user_client_role_id" uuid PRIMARY KEY,
   "user_id" uuid,
-  "client_id" uuid,
-  "role_name" varchar(255),
-  PRIMARY KEY ("user_id", "client_id", "role_name")
+  "client_role_id" uuid
 );
 
 CREATE TABLE "user_realm_role" (
+  "user_realm_role_id" uuid PRIMARY KEY,
   "user_id" uuid,
-  "realm_name" varchar(255),
-  "role_name" varchar(255),
-  PRIMARY KEY ("user_id", "realm_name", "role_name")
+  "realm_role_id" uuid
 );
 
 CREATE TABLE "user" (
@@ -118,6 +120,16 @@ CREATE TABLE "attribute" (
   "value" varchar(255)
 );
 
+CREATE TABLE "address" (
+  "address_id" uuid PRIMARY KEY,
+  "country" varchar(255) NOT NULL,
+  "postal_code" varchar(100) NOT NULL,
+  "state" varchar(255),
+  "city" varchar(255),
+  "street_name" varchar(255),
+  "street_number" varchar(50)
+);
+
 CREATE TABLE "personal_data" (
   "personal_data_id" uuid PRIMARY KEY,
   "name_id" uuid,
@@ -134,30 +146,19 @@ CREATE TABLE "name" (
   "last_name" varchar(255) NOT NULL
 );
 
-CREATE TABLE "address" (
-  "address_id" uuid PRIMARY KEY,
-  "country" varchar(255) NOT NULL,
-  "postal_code" varchar(100) NOT NULL,
-  "state" varchar(255),
-  "city" varchar(255),
-  "street_name" varchar(255),
-  "street_number" varchar(50)
-);
-
 CREATE TABLE "session" (
-  "user_id" uuid,
-  "client_id" uuid,
+  "session_id" uuid PRIMARY KEY,
+  "user_id" uuid NOT NULL,
+  "client_id" uuid NOT NULL,
   "creation_time" timestamp NOT NULL DEFAULT current_timestamp,
   "expiration_time" timestamp NOT NULL,
   "ip_address" varchar(60),
-  "user_agent" varchar(40),
-  PRIMARY KEY ("user_id", "client_id")
+  "user_agent" varchar(255)
 );
 
 CREATE TABLE "token" (
   "token_id" uuid PRIMARY KEY,
-  "user_id" uuid NOT NULL,
-  "client_id" uuid NOT NULL,
+  "session_id" uuid NOT NULL,
   "encoded_token" varchar(2024) NOT NULL,
   "key_id" uuid NOT NULL,
   "token_type" token_type NOT NULL DEFAULT 'ACCESS',
@@ -175,13 +176,9 @@ CREATE INDEX ON "user" ("email", "realm_name");
 
 CREATE INDEX ON "attribute" ("user_id");
 
-CREATE INDEX ON "session" ("user_id");
+CREATE INDEX ON "session" ("user_id", "client_id");
 
-CREATE INDEX ON "session" ("client_id");
-
-CREATE INDEX ON "token" ("user_id");
-
-CREATE INDEX ON "token" ("client_id");
+CREATE INDEX ON "token" ("session_id");
 
 ALTER TABLE "session" ADD FOREIGN KEY ("user_id") REFERENCES "user" ("user_id");
 
@@ -205,12 +202,12 @@ ALTER TABLE "client_role" ADD FOREIGN KEY ("client_id") REFERENCES "client" ("cl
 
 ALTER TABLE "user_realm_role" ADD FOREIGN KEY ("user_id") REFERENCES "user" ("user_id") ON DELETE CASCADE ON UPDATE NO ACTION;
 
-ALTER TABLE "user_realm_role" ADD FOREIGN KEY ("realm_name", "role_name") REFERENCES "realm_role" ("realm_name", "role_name") ON DELETE CASCADE ON UPDATE NO ACTION;
+ALTER TABLE "user_realm_role" ADD FOREIGN KEY ("realm_role_id") REFERENCES "realm_role" ("realm_role_id") ON DELETE CASCADE ON UPDATE NO ACTION;
 
 ALTER TABLE "user_client_role" ADD FOREIGN KEY ("user_id") REFERENCES "user" ("user_id") ON DELETE CASCADE ON UPDATE NO ACTION;
 
-ALTER TABLE "user_client_role" ADD FOREIGN KEY ("client_id", "role_name") REFERENCES "client_role" ("client_id", "role_name") ON DELETE CASCADE ON UPDATE NO ACTION;
+ALTER TABLE "user_client_role" ADD FOREIGN KEY ("client_role_id") REFERENCES "client_role" ("client_role_id") ON DELETE CASCADE ON UPDATE NO ACTION;
 
 ALTER TABLE "redirect_uri" ADD FOREIGN KEY ("client_id") REFERENCES "client" ("client_id") ON DELETE CASCADE ON UPDATE NO ACTION;
 
-ALTER TABLE "token" ADD FOREIGN KEY ("user_id", "client_id") REFERENCES "session" ("user_id", "client_id") ON DELETE CASCADE ON UPDATE NO ACTION;
+ALTER TABLE "token" ADD FOREIGN KEY ("session_id") REFERENCES "session" ("session_id") ON DELETE CASCADE ON UPDATE NO ACTION;

@@ -127,25 +127,6 @@
       </licenses>
     </dependency>
     <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-      <version>2.2.224</version>
-      <licenses>
-        <license>
-          <name>MPL 2.0</name>
-          <url>https://www.mozilla.org/en-US/MPL/2.0/</url>
-          <distribution>repo</distribution>
-          <file>mpl 2.0 - 2.0.html</file>
-        </license>
-        <license>
-          <name>EPL 1.0</name>
-          <url>https://opensource.org/licenses/eclipse-1.0.php</url>
-          <distribution>repo</distribution>
-          <file>epl 1.0 - eclipse-1.0.html</file>
-        </license>
-      </licenses>
-    </dependency>
-    <dependency>
       <groupId>com.sun.istack</groupId>
       <artifactId>istack-commons-runtime</artifactId>
       <version>4.1.2</version>
@@ -296,6 +277,18 @@
       </licenses>
     </dependency>
     <dependency>
+      <groupId>jakarta.validation</groupId>
+      <artifactId>jakarta.validation-api</artifactId>
+      <version>3.0.2</version>
+      <licenses>
+        <license>
+          <name>Apache License 2.0</name>
+          <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+          <file>the apache software license, version 2.0 - license-2.0.txt</file>
+        </license>
+      </licenses>
+    </dependency>
+    <dependency>
       <groupId>jakarta.xml.bind</groupId>
       <artifactId>jakarta.xml.bind-api</artifactId>
       <version>4.0.2</version>
@@ -427,6 +420,19 @@
       </licenses>
     </dependency>
     <dependency>
+      <groupId>org.checkerframework</groupId>
+      <artifactId>checker-qual</artifactId>
+      <version>3.31.0</version>
+      <licenses>
+        <license>
+          <name>The MIT License</name>
+          <url>http://opensource.org/licenses/MIT</url>
+          <distribution>repo</distribution>
+          <file>the mit license - mit.html</file>
+        </license>
+      </licenses>
+    </dependency>
+    <dependency>
       <groupId>org.eclipse.angus</groupId>
       <artifactId>angus-activation</artifactId>
       <version>2.0.2</version>
@@ -507,6 +513,18 @@
       </licenses>
     </dependency>
     <dependency>
+      <groupId>org.hibernate.validator</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>8.0.1.Final</version>
+      <licenses>
+        <license>
+          <name>Apache License 2.0</name>
+          <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+          <file>the apache software license, version 2.0 - license-2.0.txt</file>
+        </license>
+      </licenses>
+    </dependency>
+    <dependency>
       <groupId>org.jboss.logging</groupId>
       <artifactId>jboss-logging</artifactId>
       <version>3.5.3.Final</version>
@@ -516,6 +534,20 @@
           <url>https://repository.jboss.org/licenses/apache-2.0.txt</url>
           <distribution>repo</distribution>
           <file>apache license 2.0 - apache-2.0.txt</file>
+        </license>
+      </licenses>
+    </dependency>
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>42.6.2</version>
+      <licenses>
+        <license>
+          <name>BSD-2-Clause</name>
+          <url>https://jdbc.postgresql.org/about/license.html</url>
+          <distribution>repo</distribution>
+          <file>bsd-2-clause - license.html</file>
+          <comments>BSD-2-Clause, copyright PostgreSQL Global Development Group</comments>
         </license>
       </licenses>
     </dependency>
@@ -800,6 +832,18 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-tomcat</artifactId>
+      <version>3.2.4</version>
+      <licenses>
+        <license>
+          <name>The Apache Software License, Version 2.0</name>
+          <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+          <file>the apache software license, version 2.0 - license-2.0.txt</file>
+        </license>
+      </licenses>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-validation</artifactId>
       <version>3.2.4</version>
       <licenses>
         <license>

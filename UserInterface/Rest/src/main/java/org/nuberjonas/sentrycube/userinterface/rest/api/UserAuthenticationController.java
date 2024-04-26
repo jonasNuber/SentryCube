@@ -1,16 +1,29 @@
 package org.nuberjonas.sentrycube.userinterface.rest.api;
 
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.nuberjonas.sentrycube.userinterface.rest.jpa.repositories.UserRepository;
+import org.nuberjonas.sentrycube.userinterface.rest.jpa.tables.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
 
 @RestController()
 @RequestMapping("/api")
 public class UserAuthenticationController {
 
-    @PostMapping(path = "/{realmName}/authenticate")
-    public void authenticate(@PathVariable String realmName){
+    private UserRepository repository;
 
+    @Autowired
+    public UserAuthenticationController(UserRepository repository) {
+        this.repository = repository;
+    }
+
+    @GetMapping(path = "/{realmName}/authenticate")
+    public ResponseEntity<List<User>> authenticate(@PathVariable(name = "realmName") String realmName, @RequestHeader(HttpHeaders.USER_AGENT) String userAgent){
+        return ResponseEntity.of(Optional.of(repository.findAll()));
     }
 }
