@@ -31,7 +31,7 @@ public class PersonalData {
     private byte[] profilePicData;
 
     @OneToOne(mappedBy = "personalData")
-    private User user;
+    private SentryCubeUser user;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "name_id")
@@ -81,11 +81,11 @@ public class PersonalData {
         this.profilePicData = profilePicData;
     }
 
-    public User getUser() {
+    public SentryCubeUser getUser() {
         return user;
     }
 
-    public void setUser(final User user) {
+    public void setUser(final SentryCubeUser user) {
         this.user = user;
     }
 

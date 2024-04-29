@@ -1,8 +1,10 @@
 package org.nuberjonas.sentrycube.intrastructure.persistence.jpa.tables;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.util.Set;
+import java.util.UUID;
 
 
 @Entity
@@ -10,17 +12,30 @@ public class ClientRole {
 
     @Id
     @Column(nullable = false, updatable = false)
+    @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
+    @GeneratedValue(generator = "uuid")
+    private UUID clientRoleId;
+
+    @Column(unique = true)
     private String roleName;
 
     @Column(length = 500)
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_id")
+    @JoinColumn(name = "client_id", unique = true)
     private Client client;
 
     @OneToMany(mappedBy = "clientRole")
     private Set<UserClientRole> userClientRoles;
+
+    public UUID getClientRoleId() {
+        return clientRoleId;
+    }
+
+    public void setClientRoleId(final UUID clientRoleId) {
+        this.clientRoleId = clientRoleId;
+    }
 
     public String getRoleName() {
         return roleName;

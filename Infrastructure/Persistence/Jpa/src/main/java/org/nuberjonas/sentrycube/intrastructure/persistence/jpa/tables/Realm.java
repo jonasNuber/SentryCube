@@ -42,13 +42,13 @@ public class Realm {
     @Column(length = 500)
     private String description;
 
-    @OneToMany(mappedBy = "realmName")
+    @OneToMany(mappedBy = "realm")
     private Set<User> users;
 
-    @OneToMany(mappedBy = "realmName")
+    @OneToMany(mappedBy = "realm")
     private Set<Client> clients;
 
-    @OneToMany(mappedBy = "realmName")
+    @OneToMany(mappedBy = "realm")
     private Set<RealmRole> realmRoles;
 
     public String getRealmName() {

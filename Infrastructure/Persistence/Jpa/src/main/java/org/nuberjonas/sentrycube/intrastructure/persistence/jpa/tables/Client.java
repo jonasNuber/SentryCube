@@ -45,7 +45,7 @@ public class Client {
     private Set<Session> clientSessions;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "realm_name_id", nullable = false)
+    @JoinColumn(name = "realm_name", nullable = false)
     private Realm realm;
 
     @OneToMany(mappedBy = "client")

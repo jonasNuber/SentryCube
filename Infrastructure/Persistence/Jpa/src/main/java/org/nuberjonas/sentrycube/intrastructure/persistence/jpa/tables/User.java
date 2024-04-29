@@ -44,8 +44,8 @@ public class User {
     private Set<Session> userSessions;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "realm_name_id", nullable = false)
-    private Realm realmName;
+    @JoinColumn(name = "realm_name", nullable = false)
+    private Realm realm;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "personal_data_id")
@@ -132,12 +132,12 @@ public class User {
         this.userSessions = userSessions;
     }
 
-    public Realm getRealmName() {
-        return realmName;
+    public Realm getRealm() {
+        return realm;
     }
 
-    public void setRealmName(final Realm realmName) {
-        this.realmName = realmName;
+    public void setRealm(final Realm realm) {
+        this.realm = realm;
     }
 
     public PersonalData getPersonalData() {

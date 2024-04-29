@@ -1,8 +1,10 @@
 package org.nuberjonas.sentrycube.intrastructure.persistence.jpa.tables;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.util.Set;
+import java.util.UUID;
 
 
 @Entity
@@ -10,17 +12,30 @@ public class RealmRole {
 
     @Id
     @Column(nullable = false, updatable = false)
+    @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
+    @GeneratedValue(generator = "uuid")
+    private UUID realmRoleId;
+
+    @Column(nullable = false, updatable = false)
     private String roleName;
 
     @Column(length = 500)
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "realm_name_id")
-    private Realm realmName;
+    @JoinColumn(name = "realm_name")
+    private Realm realm;
 
-    @OneToMany(mappedBy = "realmName")
+    @OneToMany(mappedBy = "realmRole")
     private Set<UserRealmRole> userRealmRoles;
+
+    public UUID getRealmRoleId() {
+        return realmRoleId;
+    }
+
+    public void setRealmRoleId(UUID realmRoleId) {
+        this.realmRoleId = realmRoleId;
+    }
 
     public String getRoleName() {
         return roleName;
@@ -38,12 +53,12 @@ public class RealmRole {
         this.description = description;
     }
 
-    public Realm getRealmName() {
-        return realmName;
+    public Realm getRealm() {
+        return realm;
     }
 
-    public void setRealmName(final Realm realmName) {
-        this.realmName = realmName;
+    public void setRealm(final Realm realm) {
+        this.realm = realm;
     }
 
     public Set<UserRealmRole> getUserRealmRoles() {

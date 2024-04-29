@@ -43,7 +43,7 @@ public class Realm {
     private String description;
 
     @OneToMany(mappedBy = "realm")
-    private Set<User> users;
+    private Set<SentryCubeUser> users;
 
     @OneToMany(mappedBy = "realm")
     private Set<Client> clients;
@@ -123,11 +123,11 @@ public class Realm {
         this.description = description;
     }
 
-    public Set<User> getUsers() {
+    public Set<SentryCubeUser> getUsers() {
         return users;
     }
 
-    public void setUsers(Set<User> users) {
+    public void setUsers(Set<SentryCubeUser> users) {
         this.users = users;
     }
 

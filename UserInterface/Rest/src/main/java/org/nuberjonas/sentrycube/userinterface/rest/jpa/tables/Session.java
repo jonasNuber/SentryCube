@@ -31,7 +31,7 @@ public class Session {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    private SentryCubeUser user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
@@ -80,11 +80,11 @@ public class Session {
         this.userAgent = userAgent;
     }
 
-    public User getUser() {
+    public SentryCubeUser getUser() {
         return user;
     }
 
-    public void setUser(final User user) {
+    public void setUser(final SentryCubeUser user) {
         this.user = user;
     }
 

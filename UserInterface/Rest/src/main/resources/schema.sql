@@ -96,7 +96,7 @@ CREATE TABLE "user_realm_role" (
   "realm_role_id" uuid
 );
 
-CREATE TABLE "user" (
+CREATE TABLE "sentry_cube_user" (
   "user_id" uuid PRIMARY KEY,
   "realm_name" varchar NOT NULL,
   "username" varchar(255) NOT NULL,
@@ -170,9 +170,9 @@ CREATE INDEX ON "client" ("realm_name");
 
 CREATE INDEX ON "redirect_uri" ("client_id");
 
-CREATE INDEX ON "user" ("username", "realm_name");
+CREATE INDEX ON "sentry_cube_user" ("username", "realm_name");
 
-CREATE INDEX ON "user" ("email", "realm_name");
+CREATE INDEX ON "sentry_cube_user" ("email", "realm_name");
 
 CREATE INDEX ON "attribute" ("user_id");
 
@@ -180,15 +180,15 @@ CREATE INDEX ON "session" ("user_id", "client_id");
 
 CREATE INDEX ON "token" ("session_id");
 
-ALTER TABLE "session" ADD FOREIGN KEY ("user_id") REFERENCES "user" ("user_id");
+ALTER TABLE "session" ADD FOREIGN KEY ("user_id") REFERENCES "sentry_cube_user" ("user_id");
 
 ALTER TABLE "session" ADD FOREIGN KEY ("client_id") REFERENCES "client" ("client_id");
 
-ALTER TABLE "user" ADD FOREIGN KEY ("realm_name") REFERENCES "realm" ("realm_name") ON DELETE SET NULL ON UPDATE NO ACTION;
+ALTER TABLE "sentry_cube_user" ADD FOREIGN KEY ("realm_name") REFERENCES "realm" ("realm_name") ON DELETE SET NULL ON UPDATE NO ACTION;
 
-ALTER TABLE "user" ADD FOREIGN KEY ("personal_data_id") REFERENCES "personal_data" ("personal_data_id") ON DELETE CASCADE ON UPDATE NO ACTION;
+ALTER TABLE "sentry_cube_user" ADD FOREIGN KEY ("personal_data_id") REFERENCES "personal_data" ("personal_data_id") ON DELETE CASCADE ON UPDATE NO ACTION;
 
-ALTER TABLE "attribute" ADD FOREIGN KEY ("user_id") REFERENCES "user" ("user_id") ON DELETE CASCADE ON UPDATE NO ACTION;
+ALTER TABLE "attribute" ADD FOREIGN KEY ("user_id") REFERENCES "sentry_cube_user" ("user_id") ON DELETE CASCADE ON UPDATE NO ACTION;
 
 ALTER TABLE "personal_data" ADD FOREIGN KEY ("name_id") REFERENCES "name" ("name_id") ON DELETE CASCADE ON UPDATE NO ACTION;
 
@@ -200,11 +200,11 @@ ALTER TABLE "realm_role" ADD FOREIGN KEY ("realm_name") REFERENCES "realm" ("rea
 
 ALTER TABLE "client_role" ADD FOREIGN KEY ("client_id") REFERENCES "client" ("client_id") ON DELETE CASCADE ON UPDATE NO ACTION;
 
-ALTER TABLE "user_realm_role" ADD FOREIGN KEY ("user_id") REFERENCES "user" ("user_id") ON DELETE CASCADE ON UPDATE NO ACTION;
+ALTER TABLE "user_realm_role" ADD FOREIGN KEY ("user_id") REFERENCES "sentry_cube_user" ("user_id") ON DELETE CASCADE ON UPDATE NO ACTION;
 
 ALTER TABLE "user_realm_role" ADD FOREIGN KEY ("realm_role_id") REFERENCES "realm_role" ("realm_role_id") ON DELETE CASCADE ON UPDATE NO ACTION;
 
-ALTER TABLE "user_client_role" ADD FOREIGN KEY ("user_id") REFERENCES "user" ("user_id") ON DELETE CASCADE ON UPDATE NO ACTION;
+ALTER TABLE "user_client_role" ADD FOREIGN KEY ("user_id") REFERENCES "sentry_cube_user" ("user_id") ON DELETE CASCADE ON UPDATE NO ACTION;
 
 ALTER TABLE "user_client_role" ADD FOREIGN KEY ("client_role_id") REFERENCES "client_role" ("client_role_id") ON DELETE CASCADE ON UPDATE NO ACTION;
 

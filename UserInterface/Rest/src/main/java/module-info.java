@@ -13,6 +13,7 @@ module org.nuberjonas.sentrycube.userinterface.rest {
     requires jakarta.persistence;
     requires jakarta.validation;
     requires org.postgresql.jdbc;
+    requires com.fasterxml.jackson.annotation;
 
     exports org.nuberjonas.sentrycube.userinterface.rest;
     exports org.nuberjonas.sentrycube.userinterface.rest.api;

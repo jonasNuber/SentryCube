@@ -28,7 +28,7 @@ public class PersonalData {
     private String phoneNumber;
 
     @Column(columnDefinition = "text")
-    private String profilePicData;
+    private byte[] profilePicData;
 
     @OneToOne(mappedBy = "personalData")
     private User user;
@@ -73,11 +73,11 @@ public class PersonalData {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getProfilePicData() {
+    public byte[] getProfilePicData() {
         return profilePicData;
     }
 
-    public void setProfilePicData(final String profilePicData) {
+    public void setProfilePicData(final byte[] profilePicData) {
         this.profilePicData = profilePicData;
     }
 

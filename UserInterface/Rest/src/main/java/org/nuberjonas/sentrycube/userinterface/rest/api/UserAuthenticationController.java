@@ -1,7 +1,7 @@
 package org.nuberjonas.sentrycube.userinterface.rest.api;
 
 import org.nuberjonas.sentrycube.userinterface.rest.jpa.repositories.UserRepository;
-import org.nuberjonas.sentrycube.userinterface.rest.jpa.tables.User;
+import org.nuberjonas.sentrycube.userinterface.rest.jpa.tables.SentryCubeUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ public class UserAuthenticationController {
     }
 
     @GetMapping(path = "/{realmName}/authenticate")
-    public ResponseEntity<List<User>> authenticate(@PathVariable(name = "realmName") String realmName, @RequestHeader(HttpHeaders.USER_AGENT) String userAgent){
+    public ResponseEntity<List<SentryCubeUser>> authenticate(@PathVariable(name = "realmName") String realmName, @RequestHeader(HttpHeaders.USER_AGENT) String userAgent){
         return ResponseEntity.of(Optional.of(repository.findAll()));
     }
 }
