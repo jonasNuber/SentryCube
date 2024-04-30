@@ -11,9 +11,12 @@ module org.nuberjonas.sentrycube.userinterface.rest {
     requires jakarta.validation;
     requires org.postgresql.jdbc;
 
-    requires org.nuberjonas.sentrycube.infrastructure.persistence.jpa;
+    //requires org.nuberjonas.sentrycube.infrastructure.persistence.jpa;
     requires org.nuberjonas.sentrycube.core.usermanagement;
 
     exports org.nuberjonas.sentrycube.userinterface.rest;
     exports org.nuberjonas.sentrycube.userinterface.rest.api;
+    exports org.nuberjonas.sentrycube.userinterface.rest.persistence.repositories;
+    exports org.nuberjonas.sentrycube.userinterface.rest.persistence.tables;
+    exports org.nuberjonas.sentrycube.userinterface.rest.persistence.data;
 }
