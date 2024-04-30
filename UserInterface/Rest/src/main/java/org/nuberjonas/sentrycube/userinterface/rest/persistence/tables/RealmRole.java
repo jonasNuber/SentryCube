@@ -1,4 +1,4 @@
-package org.nuberjonas.sentrycube.userinterface.rest.jpa.tables;
+package org.nuberjonas.sentrycube.userinterface.rest.persistence.tables;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -8,33 +8,33 @@ import java.util.UUID;
 
 
 @Entity
-public class ClientRole {
+public class RealmRole {
 
     @Id
     @Column(nullable = false, updatable = false)
     @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
     @GeneratedValue(generator = "uuid")
-    private UUID clientRoleId;
+    private UUID realmRoleId;
 
-    @Column(unique = true)
+    @Column(nullable = false, updatable = false)
     private String roleName;
 
     @Column(length = 500)
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_id", unique = true)
-    private Client client;
+    @JoinColumn(name = "realm_name")
+    private Realm realm;
 
-    @OneToMany(mappedBy = "clientRole")
-    private Set<UserClientRole> userClientRoles;
+    @OneToMany(mappedBy = "realmRole")
+    private Set<UserRealmRole> userRealmRoles;
 
-    public UUID getClientRoleId() {
-        return clientRoleId;
+    public UUID getRealmRoleId() {
+        return realmRoleId;
     }
 
-    public void setClientRoleId(final UUID clientRoleId) {
-        this.clientRoleId = clientRoleId;
+    public void setRealmRoleId(UUID realmRoleId) {
+        this.realmRoleId = realmRoleId;
     }
 
     public String getRoleName() {
@@ -53,20 +53,20 @@ public class ClientRole {
         this.description = description;
     }
 
-    public Client getClient() {
-        return client;
+    public Realm getRealm() {
+        return realm;
     }
 
-    public void setClient(final Client client) {
-        this.client = client;
+    public void setRealm(final Realm realm) {
+        this.realm = realm;
     }
 
-    public Set<UserClientRole> getUserClientRoles() {
-        return userClientRoles;
+    public Set<UserRealmRole> getUserRealmRoles() {
+        return userRealmRoles;
     }
 
-    public void setUserClientRoles(final Set<UserClientRole> userClientRoles) {
-        this.userClientRoles = userClientRoles;
+    public void setUserRealmRoles(final Set<UserRealmRole> userRealmRoles) {
+        this.userRealmRoles = userRealmRoles;
     }
 
 }

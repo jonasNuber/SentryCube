@@ -1,11 +1,11 @@
-package org.nuberjonas.sentrycube.userinterface.rest.jpa.tables;
+package org.nuberjonas.sentrycube.userinterface.rest.persistence.tables;
 
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
-import org.nuberjonas.sentrycube.userinterface.rest.jpa.data.AccessType;
-import org.nuberjonas.sentrycube.userinterface.rest.jpa.data.GrantType;
-import org.nuberjonas.sentrycube.userinterface.rest.jpa.data.Protocol;
+import org.nuberjonas.sentrycube.userinterface.rest.persistence.data.AccessType;
+import org.nuberjonas.sentrycube.userinterface.rest.persistence.data.GrantType;
+import org.nuberjonas.sentrycube.userinterface.rest.persistence.data.Protocol;
 
 import java.util.Set;
 import java.util.UUID;

@@ -1,9 +1,9 @@
-package org.nuberjonas.sentrycube.userinterface.rest.jpa.tables;
+package org.nuberjonas.sentrycube.userinterface.rest.persistence.tables;
 
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
-import org.nuberjonas.sentrycube.userinterface.rest.jpa.data.TokenType;
+import org.nuberjonas.sentrycube.userinterface.rest.persistence.data.TokenType;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;

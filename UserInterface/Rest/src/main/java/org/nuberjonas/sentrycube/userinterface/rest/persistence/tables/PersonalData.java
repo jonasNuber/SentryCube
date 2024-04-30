@@ -1,8 +1,8 @@
-package org.nuberjonas.sentrycube.userinterface.rest.jpa.tables;
+package org.nuberjonas.sentrycube.userinterface.rest.persistence.tables;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
-import org.nuberjonas.sentrycube.userinterface.rest.jpa.data.Gender;
+import org.nuberjonas.sentrycube.userinterface.rest.persistence.data.Gender;
 
 import java.time.LocalDate;
 import java.util.UUID;

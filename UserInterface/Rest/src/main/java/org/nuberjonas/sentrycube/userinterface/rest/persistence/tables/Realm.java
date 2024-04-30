@@ -1,4 +1,4 @@
-package org.nuberjonas.sentrycube.userinterface.rest.jpa.tables;
+package org.nuberjonas.sentrycube.userinterface.rest.persistence.tables;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

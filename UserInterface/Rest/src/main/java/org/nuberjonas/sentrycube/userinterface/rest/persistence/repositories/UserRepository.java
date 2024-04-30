@@ -1,6 +1,6 @@
-package org.nuberjonas.sentrycube.userinterface.rest.jpa.repositories;
+package org.nuberjonas.sentrycube.userinterface.rest.persistence.repositories;
 
-import org.nuberjonas.sentrycube.userinterface.rest.jpa.tables.SentryCubeUser;
+import org.nuberjonas.sentrycube.userinterface.rest.persistence.tables.SentryCubeUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

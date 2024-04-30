@@ -1,4 +1,4 @@
-package org.nuberjonas.sentrycube.userinterface.rest.jpa.data;
+package org.nuberjonas.sentrycube.userinterface.rest.persistence.data;
 
 
 public enum Status {
