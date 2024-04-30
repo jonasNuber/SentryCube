@@ -1,4 +1,4 @@
-package org.nuberjonas.sentrycube.intrastructure.persistence.jpa.tables;
+package org.nuberjonas.sentrycube.infrastructure.persistence.jpa.tables;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -17,7 +17,7 @@ public class UserClientRole {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    private SentryCubeUser user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_role_id")
@@ -31,11 +31,11 @@ public class UserClientRole {
         this.userClientRoleId = userClientRoleId;
     }
 
-    public User getUser() {
+    public SentryCubeUser getUser() {
         return user;
     }
 
-    public void setUser(final User user) {
+    public void setUser(final SentryCubeUser user) {
         this.user = user;
     }
 

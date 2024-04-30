@@ -1,8 +1,8 @@
-package org.nuberjonas.sentrycube.intrastructure.persistence.jpa.tables;
+package org.nuberjonas.sentrycube.infrastructure.persistence.jpa.tables;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
-import org.nuberjonas.sentrycube.intrastructure.persistence.jpa.data.Status;
+import org.nuberjonas.sentrycube.infrastructure.persistence.jpa.data.Status;
 
 import java.time.OffsetDateTime;
 import java.util.Set;
@@ -10,7 +10,7 @@ import java.util.UUID;
 
 
 @Entity
-public class User {
+public class SentryCubeUser {
 
     @Id
     @Column(nullable = false, updatable = false)

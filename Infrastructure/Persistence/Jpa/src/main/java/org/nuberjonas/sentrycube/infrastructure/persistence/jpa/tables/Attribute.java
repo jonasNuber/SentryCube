@@ -1,4 +1,4 @@
-package org.nuberjonas.sentrycube.intrastructure.persistence.jpa.tables;
+package org.nuberjonas.sentrycube.infrastructure.persistence.jpa.tables;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -23,7 +23,7 @@ public class Attribute {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private SentryCubeUser user;
 
     public UUID getAttributeId() {
         return attributeId;
@@ -49,11 +49,11 @@ public class Attribute {
         this.value = value;
     }
 
-    public User getUser() {
+    public SentryCubeUser getUser() {
         return user;
     }
 
-    public void setUser(final User user) {
+    public void setUser(final SentryCubeUser user) {
         this.user = user;
     }
 

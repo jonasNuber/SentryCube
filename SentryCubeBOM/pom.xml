@@ -89,8 +89,8 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.nuberjonas.sentrycube.intrastructure.persistence</groupId>
-                <artifactId>org.nuberjonas.sentrycube.intrastructure.persistence.jpa</artifactId>
+                <groupId>org.nuberjonas.sentrycube.infrastructure.persistence</groupId>
+                <artifactId>org.nuberjonas.sentrycube.infrastructure.persistence.jpa</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

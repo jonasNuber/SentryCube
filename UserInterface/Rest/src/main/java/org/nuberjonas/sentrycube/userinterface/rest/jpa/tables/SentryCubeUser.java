@@ -1,6 +1,5 @@
 package org.nuberjonas.sentrycube.userinterface.rest.jpa.tables;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.nuberjonas.sentrycube.userinterface.rest.jpa.data.Status;
@@ -46,7 +45,6 @@ public class SentryCubeUser {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "realm_name", nullable = false)
-    @JsonBackReference
     private Realm realm;
 
     @ManyToOne(fetch = FetchType.LAZY)

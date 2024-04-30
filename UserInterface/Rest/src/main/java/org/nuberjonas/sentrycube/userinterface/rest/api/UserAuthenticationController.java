@@ -1,5 +1,6 @@
 package org.nuberjonas.sentrycube.userinterface.rest.api;
 
+
 import org.nuberjonas.sentrycube.userinterface.rest.jpa.repositories.UserRepository;
 import org.nuberjonas.sentrycube.userinterface.rest.jpa.tables.SentryCubeUser;
 import org.springframework.beans.factory.annotation.Autowired;

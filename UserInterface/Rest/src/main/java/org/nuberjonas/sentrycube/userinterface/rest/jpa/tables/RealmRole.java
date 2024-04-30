@@ -1,7 +1,5 @@
 package org.nuberjonas.sentrycube.userinterface.rest.jpa.tables;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -26,7 +24,6 @@ public class RealmRole {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "realm_name")
-    @JsonBackReference
     private Realm realm;
 
     @OneToMany(mappedBy = "realmRole")

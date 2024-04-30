@@ -127,25 +127,6 @@
       </licenses>
     </dependency>
     <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-      <version>2.2.224</version>
-      <licenses>
-        <license>
-          <name>MPL 2.0</name>
-          <url>https://www.mozilla.org/en-US/MPL/2.0/</url>
-          <distribution>repo</distribution>
-          <file>mpl 2.0 - 2.0.html</file>
-        </license>
-        <license>
-          <name>EPL 1.0</name>
-          <url>https://opensource.org/licenses/eclipse-1.0.php</url>
-          <distribution>repo</distribution>
-          <file>epl 1.0 - eclipse-1.0.html</file>
-        </license>
-      </licenses>
-    </dependency>
-    <dependency>
       <groupId>com.sun.istack</groupId>
       <artifactId>istack-commons-runtime</artifactId>
       <version>4.1.2</version>

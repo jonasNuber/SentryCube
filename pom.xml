@@ -82,7 +82,7 @@
 
             <modules>
                 <module>Core</module>
-                <module>Infrastructure</module>
+                <module>Infrastructure/Persistence/Jpa</module>
                 <module>UserInterface/Rest</module>
             </modules>
 
