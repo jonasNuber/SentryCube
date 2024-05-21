@@ -1,20 +1,14 @@
-package org.nuberjonas.sentrycube.core.sharedkernel.valueobjects;
+package org.nuberjonas.sentrycube.core.auth.domain.valueobjects;
 
 import java.util.Objects;
-import java.util.UUID;
 
-public record UserId(UUID id) {
-
-    public UserId(){
-        this(UUID.randomUUID());
-    }
-
+public record SignKeyId(Integer id) {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserId userId = (UserId) o;
-        return Objects.equals(id, userId.id);
+        SignKeyId signKeyId = (SignKeyId) o;
+        return Objects.equals(id, signKeyId.id);
     }
 
     @Override

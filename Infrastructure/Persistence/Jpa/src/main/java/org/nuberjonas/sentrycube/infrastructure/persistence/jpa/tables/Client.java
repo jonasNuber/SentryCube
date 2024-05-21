@@ -3,6 +3,7 @@ package org.nuberjonas.sentrycube.infrastructure.persistence.jpa.tables;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.nuberjonas.sentrycube.infrastructure.persistence.jpa.data.AccessType;
 import org.nuberjonas.sentrycube.infrastructure.persistence.jpa.data.GrantType;
 import org.nuberjonas.sentrycube.infrastructure.persistence.jpa.data.Protocol;
 

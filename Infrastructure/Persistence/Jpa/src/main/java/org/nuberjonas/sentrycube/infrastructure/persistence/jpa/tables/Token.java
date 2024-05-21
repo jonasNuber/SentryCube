@@ -2,7 +2,6 @@ package org.nuberjonas.sentrycube.infrastructure.persistence.jpa.tables;
 
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.GenericGenerator;
 import org.nuberjonas.sentrycube.infrastructure.persistence.jpa.data.TokenType;
 
 import java.time.OffsetDateTime;
@@ -14,15 +13,13 @@ public class Token {
 
     @Id
     @Column(nullable = false, updatable = false)
-    @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
-    @GeneratedValue(generator = "uuid")
     private UUID tokenId;
 
     @Column(nullable = false, length = 2024)
     private String encodedToken;
 
     @Column(nullable = false)
-    private UUID keyId;
+    private Integer keyId;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -54,11 +51,11 @@ public class Token {
         this.encodedToken = encodedToken;
     }
 
-    public UUID getKeyId() {
+    public Integer getKeyId() {
         return keyId;
     }
 
-    public void setKeyId(final UUID keyId) {
+    public void setKeyId(final Integer keyId) {
         this.keyId = keyId;
     }
 

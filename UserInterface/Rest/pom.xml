@@ -23,14 +23,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.nuberjonas.sentrycube.infrastructure.persistence</groupId>
-            <artifactId>org.nuberjonas.sentrycube.infrastructure.persistence.jpa</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.nuberjonas.sentrycube.core</groupId>
-            <artifactId>org.nuberjonas.sentrycube.core.user-management</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
@@ -46,9 +38,18 @@
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
         </dependency>
+
         <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
+            <groupId>org.nuberjonas.sentrycube.infrastructure.persistence</groupId>
+            <artifactId>org.nuberjonas.sentrycube.infrastructure.persistence.jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.nuberjonas.sentrycube.core</groupId>
+            <artifactId>org.nuberjonas.sentrycube.core.user-management</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.nuberjonas.sentrycube.core</groupId>
+            <artifactId>org.nuberjonas.sentrycube.core.auth</artifactId>
         </dependency>
     </dependencies>
 

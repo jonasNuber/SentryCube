@@ -1,7 +1,6 @@
 package org.nuberjonas.sentrycube.infrastructure.persistence.jpa.tables;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.GenericGenerator;
 
 import java.time.OffsetDateTime;
 import java.util.Set;
@@ -13,8 +12,6 @@ public class Session {
 
     @Id
     @Column(nullable = false, updatable = false)
-    @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
-    @GeneratedValue(generator = "uuid")
     private UUID sessionId;
 
     @Column(nullable = false)

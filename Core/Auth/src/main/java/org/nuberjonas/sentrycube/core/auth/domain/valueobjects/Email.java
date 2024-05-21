@@ -2,13 +2,13 @@ package org.nuberjonas.sentrycube.core.auth.domain.valueobjects;
 
 import org.apache.commons.lang3.StringUtils;
 
-public record Email(String providedEmail, String persistedEmail) {
+public record Email(String address) {
 
-    public boolean isValid(){
-        return StringUtils.equalsIgnoreCase(providedEmail, persistedEmail);
+    public boolean isValid(Email providedEmail){
+        return StringUtils.equalsIgnoreCase(providedEmail.address, address);
     }
 
     public boolean equalsUsername(UserName userName){
-        return StringUtils.equalsIgnoreCase(providedEmail, userName.providedUsername());
+        return StringUtils.equalsIgnoreCase(address, userName.name());
     }
 }

@@ -20,7 +20,9 @@ CREATE TYPE "protocol" AS ENUM (
 );
 
 CREATE TYPE "grant_type" AS ENUM (
-  'AUTHORIZATION_CODE'
+  'AUTHORIZATION_CODE',
+  'CLIENT_CREDENTIALS',
+  'RESOURCE_OWNER_PASSWORD_CREDENTIALS'
 );
 
 CREATE TYPE "access_type" AS ENUM (
@@ -160,7 +162,7 @@ CREATE TABLE "token" (
   "token_id" uuid PRIMARY KEY,
   "session_id" uuid NOT NULL,
   "encoded_token" varchar(2024) NOT NULL,
-  "key_id" uuid NOT NULL,
+  "key_id" integer NOT NULL,
   "token_type" token_type NOT NULL DEFAULT 'ACCESS',
   "creation_time" timestamp NOT NULL,
   "expiration_time" timestamp NOT NULL

@@ -3,24 +3,16 @@ package org.nuberjonas.sentrycube.core.sharedkernel.valueobjects;
 import java.util.Objects;
 import java.util.UUID;
 
-public record ClientId(UUID id) {
+public record TokenId(UUID id) {
 
-    public ClientId(){
-        this( UUID.randomUUID() );
-    }
-
-    public ClientId(String id) { this(UUID.fromString(id)); }
-
-    public boolean isValid(ClientId providedId){
-        return this.equals(providedId);
-    }
+    public TokenId (){ this(UUID.randomUUID()); }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ClientId clientId = (ClientId) o;
-        return Objects.equals(id, clientId.id);
+        TokenId tokenId = (TokenId) o;
+        return Objects.equals(id, tokenId.id);
     }
 
     @Override
