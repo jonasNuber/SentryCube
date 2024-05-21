@@ -7,18 +7,19 @@ import org.nuberjonas.sentrycube.core.sharedkernel.valueobjects.SessionId;
 import org.nuberjonas.sentrycube.core.sharedkernel.valueobjects.TokenId;
 
 import java.security.*;
-import java.security.spec.PKCS8EncodedKeySpec;
-import java.security.spec.X509EncodedKeySpec;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 public class Token {
-    private TokenId tokenId;
-    private SessionId sessionId;
-    private EncodedToken encodedToken;
-    private SignKeyId signKeyId;
-    private TokenType tokenType;
-    private CreationTime creationTime;
-    private ExpirationTime expirationTime;
+    private final TokenId tokenId;
+    private final SessionId sessionId;
+    private final EncodedToken encodedToken;
+    private final SignKeyId signKeyId;
+    private final TokenType tokenType;
+    private final CreationTime creationTime;
+    private final ExpirationTime expirationTime;
 
     private Token(TokenId tokenId, SessionId sessionId, EncodedToken encodedToken, SignKeyId signKeyId, TokenType tokenType, CreationTime creationTime, ExpirationTime expirationTime) {
         this.tokenId = tokenId;
@@ -28,6 +29,16 @@ public class Token {
         this.tokenType = tokenType;
         this.creationTime = creationTime;
         this.expirationTime = expirationTime;
+    }
+
+    private Token(Loader loader) {
+        this.tokenId = loader.tokenId;
+        this.sessionId = loader.sessionId;
+        this.encodedToken = loader.encodedToken;
+        this.signKeyId = loader.signKeyId;
+        this.tokenType = loader.tokenType;
+        this.creationTime = loader.creationTime;
+        this.expirationTime = loader.expirationTime;
     }
 
     public static Token createAccessToken(Session session, User user, Realm realm) {
@@ -101,7 +112,61 @@ public class Token {
         return expirationTime;
     }
 
-    // only for simplicity
+    public static class Loader{
+        private final TokenId tokenId;
+        private SessionId sessionId;
+        private EncodedToken encodedToken;
+        private SignKeyId signKeyId;
+        private TokenType tokenType;
+        private CreationTime creationTime;
+        private ExpirationTime expirationTime;
+
+        public Loader(TokenId tokenId) {
+            this.tokenId = tokenId;
+        }
+
+        public Loader sessionId(SessionId sessionId){
+            this.sessionId = sessionId;
+
+            return this;
+        }
+
+        public Loader encodedToken(EncodedToken encodedToken){
+            this.encodedToken = encodedToken;
+
+            return this;
+        }
+
+        public Loader signKeyId(SignKeyId signKeyId){
+            this.signKeyId = signKeyId;
+
+            return this;
+        }
+
+        public Loader tokenType(TokenType tokenType){
+            this.tokenType = tokenType;
+
+            return this;
+        }
+
+        public Loader creationTime(CreationTime creationTime){
+            this.creationTime = creationTime;
+
+            return this;
+        }
+
+        public Loader expirationTime(ExpirationTime expirationTime){
+            this.expirationTime = expirationTime;
+
+            return this;
+        }
+
+        public Token build(){
+            return new Token(this);
+        }
+    }
+
+    // this exists only for simplicity
     private static class RsaKeyManager {
         private static final Map<Integer, KeyPair> keyPairs = new HashMap<>();
         private static final Random random = new Random();

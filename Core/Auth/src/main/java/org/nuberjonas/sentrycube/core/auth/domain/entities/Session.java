@@ -6,11 +6,7 @@ import org.nuberjonas.sentrycube.core.auth.domain.exceptions.InvalidCredentialsE
 import org.nuberjonas.sentrycube.core.auth.domain.valueobjects.*;
 import org.nuberjonas.sentrycube.core.sharedkernel.valueobjects.ClientId;
 import org.nuberjonas.sentrycube.core.sharedkernel.valueobjects.SessionId;
-import org.nuberjonas.sentrycube.core.sharedkernel.valueobjects.TokenId;
 import org.nuberjonas.sentrycube.core.sharedkernel.valueobjects.UserId;
-
-import java.util.HashSet;
-import java.util.Set;
 
 public class Session {
     private final SessionId sessionId;
@@ -27,6 +23,15 @@ public class Session {
         this.creationTime = creationTime;
         this.expirationTime = expirationTime;
         this.connectionInformation = connectionInformation;
+    }
+
+    private Session(Loader loader){
+        this.sessionId = loader.sessionId;
+        this.userId = loader.userId;
+        this.clientId = loader.clientId;
+        this.creationTime = loader.creationTime;
+        this.expirationTime = loader.expirationTime;
+        this.connectionInformation = loader.connectionInformation;
     }
 
     public static Session createSession(Realm realm, Client client, User user, ConnectionInformation connectionInformation) throws DisabledException, InvalidCredentialsException, GrantTypeUnsuportedException {
@@ -90,5 +95,52 @@ public class Session {
 
     public ConnectionInformation getConnectionInformation() {
         return connectionInformation;
+    }
+
+    public static class Loader{
+        private final SessionId sessionId;
+        private UserId userId;
+        private ClientId clientId;
+        private CreationTime creationTime;
+        private ExpirationTime expirationTime;
+        private ConnectionInformation connectionInformation;
+
+        public Loader(SessionId sessionId) {
+            this.sessionId = sessionId;
+        }
+
+        public Loader userId(UserId userId){
+            this.userId = userId;
+
+            return this;
+        }
+
+        public Loader clientId(ClientId clientId){
+            this.clientId = clientId;
+
+            return this;
+        }
+
+        public Loader creationTime(CreationTime creationTime){
+            this.creationTime = creationTime;
+
+            return this;
+        }
+
+        public Loader expirationTime(ExpirationTime expirationTime){
+            this.expirationTime = expirationTime;
+
+            return this;
+        }
+
+        public Loader connectionInformation(ConnectionInformation connectionInformation){
+            this.connectionInformation = connectionInformation;
+
+            return this;
+        }
+
+        public Session build(){
+            return new Session(this);
+        }
     }
 }

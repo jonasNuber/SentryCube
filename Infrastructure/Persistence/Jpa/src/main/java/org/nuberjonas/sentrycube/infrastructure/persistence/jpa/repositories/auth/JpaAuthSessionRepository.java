@@ -2,6 +2,12 @@ package org.nuberjonas.sentrycube.infrastructure.persistence.jpa.repositories.au
 
 import org.nuberjonas.sentrycube.core.auth.application.repositories.AuthSessionRepository;
 import org.nuberjonas.sentrycube.core.auth.domain.entities.Session;
+import org.nuberjonas.sentrycube.core.auth.domain.valueobjects.ConnectionInformation;
+import org.nuberjonas.sentrycube.core.auth.domain.valueobjects.CreationTime;
+import org.nuberjonas.sentrycube.core.auth.domain.valueobjects.ExpirationTime;
+import org.nuberjonas.sentrycube.core.sharedkernel.valueobjects.ClientId;
+import org.nuberjonas.sentrycube.core.sharedkernel.valueobjects.SessionId;
+import org.nuberjonas.sentrycube.core.sharedkernel.valueobjects.UserId;
 import org.nuberjonas.sentrycube.infrastructure.persistence.jpa.repositories.ClientRepository;
 import org.nuberjonas.sentrycube.infrastructure.persistence.jpa.repositories.SessionRepository;
 import org.nuberjonas.sentrycube.infrastructure.persistence.jpa.repositories.TokenRepository;
@@ -9,7 +15,7 @@ import org.nuberjonas.sentrycube.infrastructure.persistence.jpa.repositories.Use
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.stream.Collectors;
+import java.util.List;
 
 @Repository
 public class JpaAuthSessionRepository implements AuthSessionRepository {
@@ -37,8 +43,23 @@ public class JpaAuthSessionRepository implements AuthSessionRepository {
         persistenceSession.setUserAgent(session.getConnectionInformation().userAgent());
         persistenceSession.setUser(userRepository.getReferenceById(session.getUserId().id()));
         persistenceSession.setClient(clientRepository.getReferenceById(session.getClientId().id()));
-        persistenceSession.setSessionTokens(session.getSessionTokens().stream().map(tokenId -> tokenRepository.getReferenceById(tokenId.id())).collect(Collectors.toSet()));
 
         sessionRepository.save(persistenceSession);
+    }
+
+    @Override
+    public List<Session> findSessionsByUserId(UserId userId) {
+        var persistedSessions = sessionRepository.findSessionsByUserId(userId.id());
+
+        return persistedSessions.stream().map(session ->
+                new Session.Loader(new SessionId(session.getSessionId()))
+                        .clientId(new ClientId(session.getClient().getClientId()))
+                        .userId(new UserId(session.getUser().getUserId()))
+                        .creationTime(new CreationTime(session.getCreationTime()))
+                        .expirationTime(new ExpirationTime(session.getExpirationTime()))
+                        .connectionInformation(new ConnectionInformation(session.getUserAgent(), session.getIpAddress(), null))
+                        .build())
+                .toList();
+
     }
 }

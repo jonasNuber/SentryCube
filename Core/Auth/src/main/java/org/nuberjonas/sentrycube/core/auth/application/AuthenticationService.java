@@ -33,19 +33,34 @@ public class AuthenticationService {
     public TokenResponse authenticateRessourceOwner(AuthenticationRequest request) throws InvalidCredentialsException, DisabledException, GrantTypeUnsuportedException, ClientNotFoundException, RealmNotFoundException, UserNotFoundException {
         var client = clientRepository.findById(new ClientId(request.clientId()))
                 .orElseThrow(() -> new ClientNotFoundException(String.format("The client with the id '%s' does not exist", request.clientId())));
+        client = client.addProvidedCredentials(new ClientCredentials(new ClientId(request.clientId()), new ClientSecret(request.clientSecret())));
+
         var realmName = client.realmName().name();
         var realm = realmRepository.findByName(client.realmName())
                 .orElseThrow(() -> new RealmNotFoundException(String.format("The realm with the name `%s` could not be found", realmName)));
+
         var user = userRepository.findByUsernameAndRealmname(new UserName(request.username()), realm.realmName())
                 .orElseThrow(() ->  new UserNotFoundException(String.format("The user with the username '%s' could not be found", request.username())));
-
-        client = client.addProvidedCredentials(new ClientCredentials(new ClientId(request.clientId()), new ClientSecret(request.clientSecret())));
         user = user.addProvidedCredentials(new UserCredentials(new UserName(request.username()), new Email(request.username()), new Password(request.password(), null)));
 
-        var session = Session.createSession(realm, client, user, new ConnectionInformation(request.userAgent(), request.ipAddress(), GrantType.valueOf(request.grantType())));
+        var userSessions = sessionRepository.findSessionsByUserId(user.userId());
+        var connectionInformation = new ConnectionInformation(request.userAgent(), request.ipAddress(), GrantType.valueOf(request.grantType()));
+
+        for (var userSession : userSessions){
+            if(connectionInformation.equals(userSession.getConnectionInformation())){
+                var tokenPair = tokenRepository.findTokensBySessionId(userSession.getSessionId());
+                var firstToken = tokenPair.getFirst();
+                var accesToken = TokenType.ACCESS.equals(firstToken.getTokenType()) ? firstToken : tokenPair.get(1);
+                var refreshToken = TokenType.REFRESH.equals(firstToken.getTokenType()) ? firstToken : tokenPair.get(1);
+
+                return new TokenResponse(accesToken, refreshToken);
+            }
+        }
+
+
+        var session = Session.createSession(realm, client, user, connectionInformation);
         var accessToken = Token.createAccessToken(session, user, realm);
         var refreshToken = Token.createRefreshToken(session, user, realm);
-        //session.addSessionToken(accessToken, refreshToken);
 
         sessionRepository.save(session);
         tokenRepository.save(accessToken);
