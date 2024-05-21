@@ -167,7 +167,7 @@ public class Token {
     }
 
     // this exists only for simplicity
-    private static class RsaKeyManager {
+    static class RsaKeyManager {
         private static final Map<Integer, KeyPair> keyPairs = new HashMap<>();
         private static final Random random = new Random();
         private static final Integer keyCount = 10;
