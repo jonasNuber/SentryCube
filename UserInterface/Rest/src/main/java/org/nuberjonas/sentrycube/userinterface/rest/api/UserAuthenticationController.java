@@ -39,7 +39,7 @@ public class UserAuthenticationController {
             throws UserNotFoundException, ClientNotFoundException, InvalidCredentialsException, DisabledException, GrantTypeUnsuportedException, RealmNotFoundException {
 
         AuthenticationRequest authRequest = new AuthenticationRequest(username, password, clientId, clientSecret, userAgent, request.getRemoteAddr(), grantType);
-        TokenResponse tokenResponse = service.authenticateRessourceOwner(authRequest);
+        TokenResponse tokenResponse = service.authenticateResourceOwner(authRequest);
         return ResponseEntity.ok(tokenResponse);
     }
 }

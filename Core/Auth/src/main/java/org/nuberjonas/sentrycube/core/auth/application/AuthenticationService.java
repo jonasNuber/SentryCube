@@ -14,6 +14,9 @@ import org.nuberjonas.sentrycube.core.auth.domain.valueobjects.*;
 import org.nuberjonas.sentrycube.core.sharedkernel.valueobjects.ClientId;
 import org.nuberjonas.sentrycube.core.sharedkernel.valueobjects.ClientSecret;
 
+import java.util.List;
+import java.util.Optional;
+
 public class AuthenticationService {
 
     private final AuthClientRepository clientRepository;
@@ -30,34 +33,57 @@ public class AuthenticationService {
         this.tokenRepository = tokenRepository;
     }
 
-    public TokenResponse authenticateRessourceOwner(AuthenticationRequest request) throws InvalidCredentialsException, DisabledException, GrantTypeUnsuportedException, ClientNotFoundException, RealmNotFoundException, UserNotFoundException {
-        var client = clientRepository.findById(new ClientId(request.clientId()))
+    public TokenResponse authenticateResourceOwner(AuthenticationRequest request) throws InvalidCredentialsException, DisabledException, GrantTypeUnsuportedException, ClientNotFoundException, RealmNotFoundException, UserNotFoundException {
+        var client = retrieveClient(request);
+        var realm = retrieveRealm(client);
+        var user = retrieveUser(request, realm);
+
+        var existingSessionTokenPair = existingSessionTokens(request, user);
+
+        if (existingSessionTokenPair.isPresent()) {
+            return existingSessionTokenPair.get();
+        }
+
+        return createNewSessionAndTokens(realm, client, user, request);
+    }
+
+    private Client retrieveClient(AuthenticationRequest request) throws ClientNotFoundException {
+        return clientRepository.findById(new ClientId(request.clientId()))
+                .map(client -> client.addProvidedCredentials(new ClientCredentials(new ClientId(request.clientId()), new ClientSecret(request.clientSecret()))))
                 .orElseThrow(() -> new ClientNotFoundException(String.format("The client with the id '%s' does not exist", request.clientId())));
-        client = client.addProvidedCredentials(new ClientCredentials(new ClientId(request.clientId()), new ClientSecret(request.clientSecret())));
+    }
 
+    private Realm retrieveRealm(Client client) throws RealmNotFoundException {
         var realmName = client.realmName().name();
-        var realm = realmRepository.findByName(client.realmName())
+        return realmRepository.findByName(client.realmName())
                 .orElseThrow(() -> new RealmNotFoundException(String.format("The realm with the name `%s` could not be found", realmName)));
+    }
 
-        var user = userRepository.findByUsernameAndRealmname(new UserName(request.username()), realm.realmName())
-                .orElseThrow(() ->  new UserNotFoundException(String.format("The user with the username '%s' could not be found", request.username())));
-        user = user.addProvidedCredentials(new UserCredentials(new UserName(request.username()), new Email(request.username()), new Password(request.password(), null)));
+    private User retrieveUser(AuthenticationRequest request, Realm realm) throws UserNotFoundException {
+        return userRepository.findByUsernameAndRealmname(new UserName(request.username()), realm.realmName())
+                .map(user -> user.addProvidedCredentials(new UserCredentials(new UserName(request.username()), new Email(request.username()), new Password(request.password(), null))))
+                .orElseThrow(() -> new UserNotFoundException(String.format("The user with the username '%s' could not be found", request.username())));
+    }
 
+    private Optional<TokenResponse> existingSessionTokens(AuthenticationRequest request, User user) {
         var userSessions = sessionRepository.findSessionsByUserId(user.userId());
         var connectionInformation = new ConnectionInformation(request.userAgent(), request.ipAddress(), GrantType.valueOf(request.grantType()));
 
-        for (var userSession : userSessions){
-            if(connectionInformation.equals(userSession.getConnectionInformation())){
+        for (Session userSession : userSessions) {
+            if (connectionInformation.equals(userSession.getConnectionInformation())) {
                 var tokenPair = tokenRepository.findTokensBySessionId(userSession.getSessionId());
-                var firstToken = tokenPair.getFirst();
-                var accesToken = TokenType.ACCESS.equals(firstToken.getTokenType()) ? firstToken : tokenPair.get(1);
+                var firstToken = tokenPair.get(0);
+                var accessToken = TokenType.ACCESS.equals(firstToken.getTokenType()) ? firstToken : tokenPair.get(1);
                 var refreshToken = TokenType.REFRESH.equals(firstToken.getTokenType()) ? firstToken : tokenPair.get(1);
 
-                return new TokenResponse(accesToken, refreshToken);
+                return Optional.of(new TokenResponse(accessToken, refreshToken));
             }
         }
+        return Optional.empty();
+    }
 
-
+    private TokenResponse createNewSessionAndTokens(Realm realm, Client client, User user, AuthenticationRequest request) throws InvalidCredentialsException, DisabledException, GrantTypeUnsuportedException {
+        var connectionInformation = new ConnectionInformation(request.userAgent(), request.ipAddress(), GrantType.valueOf(request.grantType()));
         var session = Session.createSession(realm, client, user, connectionInformation);
         var accessToken = Token.createAccessToken(session, user, realm);
         var refreshToken = Token.createRefreshToken(session, user, realm);
