@@ -59,7 +59,7 @@ public class Token {
         }
 
         var token = jwtBuilder
-                .signWith(privateKey, SignatureAlgorithm.RS256)
+                .signWith(RsaKeyManager.getPrivateKey(keyId), SignatureAlgorithm.RS256)
                 .compact();
 
         return new Token(

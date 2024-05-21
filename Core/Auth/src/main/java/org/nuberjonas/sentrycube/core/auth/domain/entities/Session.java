@@ -19,7 +19,6 @@ public class Session {
     private final CreationTime creationTime;
     private final ExpirationTime expirationTime;
     private final ConnectionInformation connectionInformation;
-    private Set<TokenId> sessionTokens;
 
     private Session(SessionId sessionId, UserId userId, ClientId clientId, CreationTime creationTime, ExpirationTime expirationTime, ConnectionInformation connectionInformation) {
         this.sessionId = sessionId;
@@ -28,7 +27,6 @@ public class Session {
         this.creationTime = creationTime;
         this.expirationTime = expirationTime;
         this.connectionInformation = connectionInformation;
-        this.sessionTokens = new HashSet<>();
     }
 
     public static Session createSession(Realm realm, Client client, User user, ConnectionInformation connectionInformation) throws DisabledException, InvalidCredentialsException, GrantTypeUnsuportedException {
@@ -70,14 +68,6 @@ public class Session {
         }
     }
 
-    public void addSessionToken(Token... sessionTokens){
-        for(Token sessionToken : sessionTokens){
-            if(sessionToken.getSessionId().equals(sessionId)){
-                this.sessionTokens.add(sessionToken.getTokenId());
-            }
-        }
-    }
-
     public SessionId getSessionId() {
         return sessionId;
     }
@@ -100,9 +90,5 @@ public class Session {
 
     public ConnectionInformation getConnectionInformation() {
         return connectionInformation;
-    }
-
-    public Set<TokenId> getSessionTokens() {
-        return sessionTokens;
     }
 }

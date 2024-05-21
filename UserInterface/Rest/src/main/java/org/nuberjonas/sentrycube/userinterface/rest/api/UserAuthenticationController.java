@@ -1,6 +1,7 @@
 package org.nuberjonas.sentrycube.userinterface.rest.api;
 
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.nuberjonas.sentrycube.core.auth.application.AuthenticationService;
 import org.nuberjonas.sentrycube.core.auth.application.exceptions.ClientNotFoundException;
 import org.nuberjonas.sentrycube.core.auth.application.exceptions.RealmNotFoundException;
@@ -28,6 +29,8 @@ public class UserAuthenticationController {
 
     @PostMapping("/token")
     public ResponseEntity<TokenResponse> token(
+            HttpServletRequest request,
+            @RequestHeader(value = "User-Agent") String userAgent,
             @RequestHeader("grant_type") String grantType,
             @RequestHeader(value = "username", required = false) String username,
             @RequestHeader(value = "password", required = false) String password,
@@ -35,7 +38,7 @@ public class UserAuthenticationController {
             @RequestHeader("client_secret") String clientSecret)
             throws UserNotFoundException, ClientNotFoundException, InvalidCredentialsException, DisabledException, GrantTypeUnsuportedException, RealmNotFoundException {
 
-        AuthenticationRequest authRequest = new AuthenticationRequest(username, password, clientId, clientSecret, null, null, grantType);
+        AuthenticationRequest authRequest = new AuthenticationRequest(username, password, clientId, clientSecret, userAgent, request.getRemoteAddr(), grantType);
         TokenResponse tokenResponse = service.authenticateRessourceOwner(authRequest);
         return ResponseEntity.ok(tokenResponse);
     }
