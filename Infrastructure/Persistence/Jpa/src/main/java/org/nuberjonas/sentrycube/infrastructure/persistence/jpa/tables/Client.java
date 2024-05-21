@@ -6,7 +6,6 @@ import org.hibernate.annotations.GenericGenerator;
 import org.nuberjonas.sentrycube.infrastructure.persistence.jpa.data.GrantType;
 import org.nuberjonas.sentrycube.infrastructure.persistence.jpa.data.Protocol;
 
-
 import java.util.Set;
 import java.util.UUID;
 

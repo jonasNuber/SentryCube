@@ -22,10 +22,10 @@
     </properties>
 
     <dependencies>
-        <!--<dependency>
+        <dependency>
             <groupId>org.nuberjonas.sentrycube.infrastructure.persistence</groupId>
             <artifactId>org.nuberjonas.sentrycube.infrastructure.persistence.jpa</artifactId>
-        </dependency>-->
+        </dependency>
         <dependency>
             <groupId>org.nuberjonas.sentrycube.core</groupId>
             <artifactId>org.nuberjonas.sentrycube.core.user-management</artifactId>

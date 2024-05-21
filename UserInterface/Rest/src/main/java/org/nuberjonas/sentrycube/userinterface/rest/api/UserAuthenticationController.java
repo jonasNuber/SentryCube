@@ -1,8 +1,8 @@
 package org.nuberjonas.sentrycube.userinterface.rest.api;
 
 
-import org.nuberjonas.sentrycube.userinterface.rest.persistence.repositories.UserRepository;
-import org.nuberjonas.sentrycube.userinterface.rest.persistence.tables.SentryCubeUser;
+import org.nuberjonas.sentrycube.infrastructure.persistence.jpa.repositories.UserRepository;
+import org.nuberjonas.sentrycube.infrastructure.persistence.jpa.tables.SentryCubeUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;

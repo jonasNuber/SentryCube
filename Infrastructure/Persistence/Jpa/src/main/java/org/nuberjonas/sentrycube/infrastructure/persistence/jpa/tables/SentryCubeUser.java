@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.nuberjonas.sentrycube.infrastructure.persistence.jpa.data.Status;
 
+
 import java.time.OffsetDateTime;
 import java.util.Set;
 import java.util.UUID;
